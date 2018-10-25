@@ -9,7 +9,8 @@
   margin: 10px auto;
   max-width: 700px;
   height: calc(100% - 270px);
-  overflow-x: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   mat-list-item {
     margin: 20px 0;
@@ -20,6 +21,10 @@
 
   i {
     padding: 0 10px;
+  }
+
+  .mat-line {
+    white-space: pre-wrap;
   }
 
   button {
