@@ -1,0 +1,57 @@
+
+<mat-toolbar class="header-toolbar" color="primary">
+  My Chat
+  <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
+  <mat-menu #menu="matMenu">
+    <span mat-menu-item><mat-icon>person</mat-icon> {{getUser().name}}</span>
+    <span mat-menu-item><mat-icon>mail</mat-icon> {{getUser().email}}</span>
+    <button mat-menu-item (click)="logout()"><mat-icon>logout</mat-icon> Log Out</button>
+  </mat-menu>
+</mat-toolbar>
+
+<mat-card class="container-search">
+  <form>
+    <mat-form-field>
+      <input matInput type="search" name="searchQuery" placeholder="search messages" [(ngModel)]="searchQuery" />
+    </mat-form-field>
+  </form>
+</mat-card>
+
+<div class="container-messages" appChat>
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let message of messages | search: searchQuery; let i = index">
+      <p matLine>
+        <strong>{{message.name}}</strong>
+        <i>
+          <small>{{message.created_at}}</small>
+        </i>
+          <button
+            *ngIf="getUser() && getUser().email === message.creator_email"
+            mat-icon-button
+            (click)="editMessage(message, i)">
+              <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            *ngIf="getUser() && getUser().email === message.creator_email || getUser().role === 'Admin'"
+            mat-icon-button
+            (click)="deleteMessage(message._id, i)">
+              <mat-icon>delete</mat-icon>
+          </button>
+      </p>
+      <p matLine>{{message.message}}</p>
+    </mat-list-item>
+  </mat-list>
+</div>
+
+<mat-card class="container-form-chat">
+  <form [formGroup]="chatForm">
+    <mat-form-field class="example-full-width" *ngIf="chatForm.value.hasOwnProperty('message')">
+      <textarea matInput placeholder="message" formControlName="message"></textarea>
+    </mat-form-field>
+    <button mat-icon-button [disabled]="chatForm.invalid" (click)="send()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+</mat-card>
+
+

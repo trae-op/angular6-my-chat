@@ -1,0 +1,33 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+.container-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 100%;
+
+  mat-card-title {
+    text-align: center;
+  }
+
+  mat-card {
+    flex-basis: 400px;
+  }
+
+  form, .passwords {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .actions {
+    text-align: right;
+    a {
+      text-decoration: none;
+      margin-right: 10px;
+      color: mat-color(mat-palette($mat-indigo));
+    }
+  }
+}

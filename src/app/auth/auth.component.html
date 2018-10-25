@@ -1,0 +1,32 @@
+
+<div class="container-form">
+  <mat-card>
+    <mat-card-title>Fill in your data</mat-card-title>
+  <form [formGroup]="authForm">
+    <mat-form-field class="example-full-width" *ngIf="authForm.value.hasOwnProperty('username')">
+      <input matInput type="text" placeholder="username" formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" *ngIf="authForm.value.hasOwnProperty('email')">
+      <input matInput type="email" placeholder="email" formControlName="email">
+    </mat-form-field>
+
+    <div class="passwords" formGroupName="passwords">
+      <mat-form-field class="example-full-width">
+        <input matInput type="password" placeholder="password" formControlName="password">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput type="password" placeholder="confirm password" formControlName="confirm_password">
+      </mat-form-field>
+    </div>
+  </form>
+
+    <div class="actions">
+      <a [routerLink]="'/'" matInput>Log In</a>
+      <button mat-stroked-button [disabled]="authForm.invalid" (click)="send()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>

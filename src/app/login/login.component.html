@@ -1,0 +1,21 @@
+
+<div class="container-form">
+  <mat-card>
+    <mat-card-title>Enter Chat</mat-card-title>
+    <form [formGroup]="loginForm">
+      <mat-form-field class="example-full-width" *ngIf="loginForm.value.hasOwnProperty('email')">
+        <input matInput type="email" placeholder="email" formControlName="email">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" *ngIf="loginForm.value.hasOwnProperty('password')">
+        <input matInput type="password" placeholder="password" formControlName="password">
+      </mat-form-field>
+    </form>
+    <div class="actions">
+      <a [routerLink]="'/auth'" matInput>Sing Up</a>
+      <button mat-stroked-button [disabled]="loginForm.invalid" (click)="send()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>
