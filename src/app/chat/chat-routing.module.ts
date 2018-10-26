@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ChatComponent} from './chat.component';
-import {AuthGuard} from '../auth/auth.guard';
+import {ChatGuard} from './chat.guard';
 
 const routes: Routes = [
   {
     path: 'chat',
     component: ChatComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ChatGuard]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: [ChatGuard]
 })
 export class ChatRoutingModule { }

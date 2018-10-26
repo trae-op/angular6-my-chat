@@ -36,7 +36,9 @@ export class AuthService {
   }
 
   private openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close');
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+    });
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -5,7 +5,7 @@ import {Directive, ElementRef, AfterContentChecked} from '@angular/core';
 })
 export class ChatDirective implements AfterContentChecked {
 
-  private prevCurrentValue: number = 0;
+  private prevCurrentValue = 0;
 
   constructor(private el: ElementRef) {}
 

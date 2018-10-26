@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {AuthService} from './auth.service';
-import {LocalStorageService} from 'angular-2-local-storage';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -12,9 +10,7 @@ import {Router} from '@angular/router';
 export class AuthComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
-              private authService: AuthService,
-              private localStorage: LocalStorageService,
-              private router: Router) { }
+              private authService: AuthService) { }
 
   public authForm: FormGroup;
 
@@ -27,12 +23,6 @@ export class AuthComponent implements OnInit {
         confirm_password: ['', [Validators.required]]
       }, {validator: this.validateAreEqual})
     });
-
-
-    if (this.localStorage.get('Authorization')) {
-      console.log(this.localStorage.get('Authorization'));
-      this.router.navigate(['/chat']);
-    }
   }
 
   public send() {

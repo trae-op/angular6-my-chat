@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import {LocalStorageService} from 'angular-2-local-storage';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
-  constructor(private localStorage: LocalStorageService, private router: Router) { }
+export class LoginGuard implements CanActivate {
+  constructor(private localStorage: LocalStorageService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -17,6 +17,4 @@ export class AuthGuard implements CanActivate {
     }
     return true;
   }
-
-
 }

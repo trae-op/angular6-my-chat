@@ -10,7 +10,8 @@ export class ChatPipe implements PipeTransform {
       return value;
     }
     return value.filter(data => {
-      return data.message.toLowerCase().indexOf(args) !== -1;
+      const check = prop => data[prop].toLowerCase().indexOf(args) !== -1;
+      return check('message') || check('creator_email') || check('created_at');
     });
   }
 
