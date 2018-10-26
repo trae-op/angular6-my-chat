@@ -11,7 +11,7 @@ export class UsersGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.localStorage.get('Authorization')) {
+    if (!this.localStorage.get('Authorization') || this.localStorage.get<any>('user').role !== 'Admin') {
       this.router.navigate(['/']);
       return false;
     }
