@@ -6,8 +6,7 @@ import {MatTable} from '@angular/material/table';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit {
 

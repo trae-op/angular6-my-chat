@@ -1,6 +1,5 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup, Validators, FormBuilder} from '@angular/forms';
-import _ from 'lodash';
 
 import {ChatService} from './chat.service';
 
@@ -9,8 +8,7 @@ import {LocalStorageService} from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  templateUrl: './chat.component.html'
 })
 export class ChatComponent implements OnInit {
 

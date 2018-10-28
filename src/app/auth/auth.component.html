@@ -1,7 +1,7 @@
 
-<div class="container-form">
+<div class="container-form auth">
   <mat-card>
-    <mat-card-title>Fill in your data</mat-card-title>
+    <mat-card-title>Fill in your the data</mat-card-title>
   <form [formGroup]="authForm">
     <mat-form-field class="example-full-width" *ngIf="authForm.value.hasOwnProperty('username')">
       <input matInput type="text" placeholder="username" formControlName="username">
