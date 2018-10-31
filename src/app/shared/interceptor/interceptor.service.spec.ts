@@ -1,11 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { InterceptorService } from './interceptor.service';
+import {LocalStorageService} from 'angular-2-local-storage';
 
 describe('InterceptorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [InterceptorService]
+      providers: [
+        InterceptorService,
+        { provide: LocalStorageService }
+      ]
     });
   });
 

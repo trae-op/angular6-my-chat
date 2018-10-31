@@ -41,6 +41,7 @@ export class UsersService {
 
   public async deleteUser(user: UsersModel) {
     let messages;
+    let message;
     await this.getMessages().then(response => {
       if (_.filter(response, {creator_email: user.email}).length) {
         messages = _.filter(response, {creator_email: user.email});
@@ -55,18 +56,16 @@ export class UsersService {
               At first you should be remove all messages and retry delete user again
           `
       };
-    } else {
-      let message;
-      await this.deleteById(user._id)
-        .then(() => message = 'User was deleted!');
-      if (message) {
-        return {
-          deleted: true,
-          message
-        };
-      }
-      throw new Error('Something wrong!!!');
     }
+    await this.deleteById(user._id)
+      .then(() => message = 'User was deleted!');
+    if (message) {
+      return {
+        deleted: true,
+        message
+      };
+    }
+    throw new Error('Something wrong!!!');
   }
 
   private configUrl() {

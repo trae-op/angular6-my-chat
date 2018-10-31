@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   public send() {
     this.loginService.login(this.loginForm.value)
-      .subscribe(response => console.log('Welcome to the Chat!'));
+      .subscribe(response => console.log('Welcome to the Chat!', response));
   }
 
 }
