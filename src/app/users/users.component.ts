@@ -15,10 +15,11 @@ export class UsersComponent implements OnInit {
 
   constructor(private usersService: UsersService) {}
 
-  @ViewChild('usersTable') usersTable: MatTable<any>;
+  @ViewChild(MatTable) usersTable;
 
   ngOnInit() {
     this.getUsers();
+    //console.log(this.usersTable);
   }
 
   public getUsers() {

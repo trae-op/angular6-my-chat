@@ -1,7 +1,7 @@
-import {Directive, ElementRef, AfterContentChecked} from '@angular/core';
+import {Directive, ElementRef, AfterContentChecked, Input} from '@angular/core';
 
 @Directive({
-  selector: '[appChat]'
+  selector: '[appContainerMessages]'
 })
 export class ChatDirective implements AfterContentChecked {
 
@@ -9,11 +9,13 @@ export class ChatDirective implements AfterContentChecked {
 
   constructor(private el: ElementRef) {}
 
+  @Input() data: any;
+
   ngAfterContentChecked() {
-    if (this.prevCurrentValue < this.el.nativeElement.scrollHeight) {
+    if (this.prevCurrentValue < this.data.length) {
       this.el.nativeElement.scrollTop = this.el.nativeElement.scrollHeight;
-      this.prevCurrentValue = this.el.nativeElement.scrollHeight;
     }
+    this.prevCurrentValue = this.data.length;
   }
 
 }

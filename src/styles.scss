@@ -1,11 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+
+// You can add global styles to this file, and also import other style files
+
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~normalize.css/normalize.css";
-@import '~@angular/material/theming';
-@include mat-core();
 
+@import 'theme/custom-theme';
 @import 'theme/shared';
 @import 'theme/container-form';
+@import 'app/chat/private-dialogues-bottom-sheet/private-dialogues-bottom-sheet.component';
+@import 'app/chat/notification-popup/notification-popup.component';
 @import 'app/chat/chat.component';
 @import 'app/users/users.component';
 

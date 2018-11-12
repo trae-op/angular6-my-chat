@@ -8,6 +8,11 @@ const routes: Routes = [
     path: 'chat',
     component: ChatComponent,
     canActivate: [ChatGuard]
+  },
+  {
+    path: 'chat/private_dialog/:id',
+    component: ChatComponent,
+    canActivate: [ChatGuard]
   }
 ];
 

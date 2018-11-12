@@ -1,0 +1,10 @@
+<mat-nav-list class="container-notification">
+  <p *ngIf="!data.length">Notifications are missing!</p>
+  <div class="item-notification" *ngFor="let notification of data; let i = index">
+    <p [innerHTML]="notification.message"></p>
+    <button *ngIf="notification.type === 'face-to-face-invite'" mat-flat-button (click)="giveConsent(notification, i)">give consent</button>
+    <button mat-flat-button color="warn" (click)="deleteNotification(notification, i)">
+      {{notification.type !== 'face-to-face-invite' ? 'delete' : 'not give consent'}}
+    </button>
+  </div>
+</mat-nav-list>

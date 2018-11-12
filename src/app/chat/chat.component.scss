@@ -1,34 +1,113 @@
 
 .header-toolbar {
-  button {
-    margin-left: auto;
+  .btn-notifications {
+    color: mat-color($mat-blue-grey, 900);
+    &.has-notifications {
+      color: red;
+      small {
+        color: #fff;
+      }
+    }
   }
+
+  &.mat-toolbar-single-row {
+    height: 43px;
+    @media (max-width: 400px) {
+      padding: 0;
+    }
+  }
+
+  & > button,
+  & > .search-bar button,
+  & > .logo mat-icon {
+    @media (max-width: 400px) {
+      width: 30px;
+    }
+  }
+
+  & > .logo {
+    color: white;
+    display: table;
+    mat-icon {
+      vertical-align: middle;
+      @media (max-width: 400px) {
+        padding-left: 5px;
+      }
+    }
+  }
+
+  & > .search-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    flex-grow: 1;
+
+    input {
+      cursor: default;
+      flex-grow: 1;
+      margin-left: 5px;
+      opacity: 0;
+      outline: none;
+
+      &.show-search-bar {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.number-of-dialogues {
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  margin-right: 5px;
+  padding: 2px;
 }
 
 .container-messages {
   margin: 10px auto;
   max-width: 700px;
-  height: calc(100% - 260px);
+  height: calc(100% - 140px);
   overflow-x: hidden;
   overflow-y: auto;
 
-  @media (max-height: 480px) {
-    height: calc(100% - 180px);
+  @media (max-width: 320px) {
+    height: calc(100% - 190px);
   }
 
   mat-list-item {
-    margin: 20px 0;
+    margin: 5px 0;
+    padding-bottom: 10px;
+    padding-top: 5px;
 
-    @media (max-width: 600px) {
-      margin: auto;
+    max-width: 400px;
+
+    &.mat-list-item {
+      display: table;
+
+      &:not(.my-message) {
+        background-color: #eee;
+      }
+    }
+
+    &.my-message {
+      background-color: mat-color(mat-palette($mat-blue-grey, 700));
+      color: #fff;
+      margin-left: auto;
     }
   }
+
+  .mat-list .mat-list-item.mat-2-line {
+    height: auto;
+  }
+
   mat-icon {
     font-size: 18px;
   }
 
   i {
-    padding: 0 10px;
+    padding-left: 10px;
   }
 
   .mat-list-item .mat-line {
@@ -45,36 +124,47 @@
 .container-form-chat {
   margin: 0 auto 10px;
   max-width: 700px;
-}
 
-.container-search.mat-card,
-.container-form-chat.mat-card {
-  padding-bottom: 0;
-  padding-top: 10px;
-}
-
-.container-search.mat-card {
-  @media (max-height: 480px) {
-    display: none;
+  &.mat-card {
+    padding: 10px;
   }
-}
 
-.container-form-chat,
-.container-search {
   form {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     flex-wrap: wrap;
-    align-items: center;
-  }
+    justify-content: flex-start;
 
-  mat-form-field {
-    flex-grow: 1;
-  }
+    textarea, button {
+      height: 50px;
+    }
 
-  button {
-    margin-left: 2%;
+    @media (max-width: 320px) {
+      flex-direction: column;
+    }
+
+    textarea {
+      border: 0;
+      flex-grow: 1;
+      margin-right: 10px;
+      outline: none;
+      padding: 10px;
+      resize: none;
+
+      -moz-box-shadow:    inset  1px 1px 3px #ccc, inset  1px 1px 3px #ccc;
+      -webkit-box-shadow: inset  1px 1px 3px #ccc, inset  1px 1px 3px #ccc;
+      box-shadow:         inset  1px 1px 3px #ccc, inset  1px 1px 3px #ccc;
+
+      @media (max-width: 320px) {
+        margin-right: 0;
+      }
+    }
+
+    button {
+      @media (max-width: 320px) {
+        width: 100%;
+      }
+    }
   }
 }
 

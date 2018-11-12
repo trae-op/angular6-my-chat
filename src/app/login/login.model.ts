@@ -1,6 +1,6 @@
 
 
 export interface LoginModel {
-  user: string;
+  user: any;
   token: string;
 }

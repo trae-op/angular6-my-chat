@@ -11,6 +11,8 @@ import {ChatComponent} from './chat.component';
 import {ChatService} from './chat.service';
 import { ChatDirective } from './chat.directive';
 import { ChatPipe } from './chat.pipe';
+import {NotificationPopupComponent} from './notification-popup/notification-popup.component';
+import {PrivateDialoguesBottomSheetComponent} from './private-dialogues-bottom-sheet/private-dialogues-bottom-sheet.component';
 
 @NgModule({
   imports: [
@@ -24,6 +26,16 @@ import { ChatPipe } from './chat.pipe';
   providers: [
     ChatService
   ],
-  declarations: [ChatComponent, ChatDirective, ChatPipe]
+  entryComponents: [
+    NotificationPopupComponent,
+    PrivateDialoguesBottomSheetComponent
+  ],
+  declarations: [
+    ChatComponent,
+    ChatDirective,
+    ChatPipe,
+    NotificationPopupComponent,
+    PrivateDialoguesBottomSheetComponent
+  ]
 })
 export class ChatModule { }

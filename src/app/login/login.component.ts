@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
               private loginService: LoginService) { }
 
   public loginForm: FormGroup;
+  public dataUser;
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -22,7 +23,10 @@ export class LoginComponent implements OnInit {
 
   public send() {
     this.loginService.login(this.loginForm.value)
-      .subscribe(response => console.log('Welcome to the Chat!', response));
+      .subscribe(response => {
+        console.log('Welcome to the Chat!');
+        this.dataUser = response;
+      });
   }
 
 }

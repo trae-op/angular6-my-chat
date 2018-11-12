@@ -1,0 +1,9 @@
+<mat-nav-list class="container-private-dialogues">
+  <a mat-list-item
+     (click)="openLink($event)"
+     *ngFor="let privateDialog of data.privateDialogs"
+     [ngClass]="{'active': data.routeParams.id === privateDialog._id}"
+     [routerLink]="'/chat/private_dialog/' + privateDialog._id">
+    <span mat-line>{{getNameInterlocutor(privateDialog.users).name}}</span>
+  </a>
+</mat-nav-list>
