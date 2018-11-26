@@ -5,13 +5,11 @@ import {Router} from '@angular/router';
 
 import {Subject, throwError} from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ChatMessages } from './chat.model';
 import { environment } from '../../environments/environment';
 import {LocalStorageService} from 'angular-2-local-storage';
 import {SocketService} from '../shared/socket/socket.service';
 import {NotificationsModel} from './notifications.model';
 import {PrivateDialoguesModel} from './privateDialogues.model';
-import {PrivateMessagesModel} from './privateMessages.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +17,19 @@ import {PrivateMessagesModel} from './privateMessages.model';
 export class ChatService {
 
   public messagesSubject: Subject<any>;
+  public allMessages = [];
+  public allNotifications: NotificationsModel[] = [];
+  public allPrivateDialogues: PrivateDialoguesModel[] = [];
+  public currentRouteId: any;
+  public lackOfComment: boolean;
+
+  // options request by scroll
+  public controlRequestScroll = {
+    limitDefault: 20,
+    scroll: false,
+    limit: 20,
+    limitActive: false
+  };
 
   constructor(private httpClient: HttpClient,
               private snackBar: MatSnackBar,
@@ -31,46 +42,30 @@ export class ChatService {
       .pipe(
         map((response: any): any => response)
       );
-  }
 
-  public getMessages() {
-    return this.httpClient.get<ChatMessages[]>(`${this.configUrl()}/messages`)
-      .pipe(
-        catchError(error => this.handleError(error))
-      );
-  }
-
-  public addMessage(data: any) {
-    return this.httpClient.post<ChatMessages>(`${this.configUrl()}/messages`, data)
-      .pipe(
-        map(response => {
-          this.messagesSubject.next(true);
-          return response;
-        }),
-        catchError(error => this.handleError(error))
-      );
-  }
-
-  public updateMessage(data: any) {
-    return this.httpClient.put<ChatMessages>(`${this.configUrl()}/messages`, data)
-      .pipe(
-        map(response => {
-          this.messagesSubject.next(true);
-          return response;
-        }),
-        catchError(error => this.handleError(error))
-      );
-  }
-
-  public deleteMessage(id: string) {
-    return this.httpClient.delete<{}>(`${this.configUrl()}/messages/${id}`)
-      .pipe(
-        map(response => {
-          this.messagesSubject.next(true);
-          return response;
-        }),
-        catchError(error => this.handleError(error))
-      );
+    this.messagesSubject.subscribe(data => {
+      const jsonData = JSON.parse(data);
+      switch (jsonData.type) {
+        case 'message':
+            this.allMessages.push(jsonData.data);
+            this.lackOfComment = false;
+          break;
+        case 'update-message':
+            this.allMessages[jsonData.index] = jsonData.data;
+          break;
+        case 'delete-message':
+            this.allMessages.splice(jsonData.index, 1);
+            this.lackOfComment = !this.allMessages.length ? true : false;
+          break;
+        case 'notification':
+            if (this.getUser().name === jsonData.interlocutorName) {
+              this.allNotifications.push(jsonData.data);
+            }
+          break;
+        default:
+          return;
+      }
+    });
   }
 
   public getNotifications() {
@@ -80,11 +75,15 @@ export class ChatService {
       );
   }
 
-  public addNotification(data: any) {
+  public addNotification(data: any, interlocutor: any) {
     return this.httpClient.post<NotificationsModel>(`${this.configUrl()}/notifications`, data)
       .pipe(
         map(response => {
-          this.messagesSubject.next(true);
+          this.messagesSubject.next({
+            type: 'notification',
+            interlocutorName: interlocutor.name,
+            data: response
+          });
           return response;
         }),
         catchError(error => this.handleError(error))
@@ -119,61 +118,25 @@ export class ChatService {
       );
   }
 
-  public getPrivateMessages() {
-    return this.httpClient.get<PrivateMessagesModel[]>(`${this.configUrl()}/privateMessages`)
-      .pipe(
-        catchError(error => this.handleError(error))
-      );
-  }
-
-  public addPrivateMessage(data: any) {
-    return this.httpClient.post<PrivateMessagesModel>(`${this.configUrl()}/privateMessages`, data)
-      .pipe(
-        map(response => {
-          this.messagesSubject.next(true);
-          return response;
-        }),
-        catchError(error => this.handleError(error))
-      );
-  }
-
-  public updatePrivateMessage(data: any) {
-    return this.httpClient.put<PrivateMessagesModel>(`${this.configUrl()}/privateMessages`, data)
-      .pipe(
-        map(response => {
-          this.messagesSubject.next(true);
-          return response;
-        }),
-        catchError(error => this.handleError(error))
-      );
-  }
-
-  public deletePrivateMessage(id: string) {
-    return this.httpClient.delete<{}>(`${this.configUrl()}/privateMessages/${id}`)
-      .pipe(
-        map(response => {
-          this.messagesSubject.next(true);
-          return response;
-        }),
-        catchError(error => this.handleError(error))
-      );
-  }
-
   public logout() {
     this.localStorage.remove('user');
     this.localStorage.remove('Authorization');
     this.router.navigate(['/']);
   }
 
-  private configUrl() {
+  public configUrl() {
     return `${environment.host}/${environment.api}`;
+  }
+
+  public getUser() {
+    return this.localStorage.get<any>('user');
   }
 
   public openSnackBar(message: string, duration: number) {
     this.snackBar.open(message, 'Close', { duration });
   }
 
-  private handleError(error: HttpErrorResponse) {
+  public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);

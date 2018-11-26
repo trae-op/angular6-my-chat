@@ -1,15 +1,13 @@
 
 export interface PrivateDialoguesModel {
   _id: string;
-  users: [
-    {
-      name: string,
-      email: string
-    },
-    {
-      name: string,
-      email: string
-    }
-  ];
+  interlocutor: {
+    name: string,
+    email: string
+  };
+  sender: {
+    name: string,
+    email: string
+  };
   created_at: string;
 }

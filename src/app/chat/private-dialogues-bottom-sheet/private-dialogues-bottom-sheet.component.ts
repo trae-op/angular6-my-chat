@@ -15,13 +15,9 @@ export class PrivateDialoguesBottomSheetComponent {
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private localStorage: LocalStorageService) {}
 
-  openLink(event: MouseEvent): void {
+  public openLink(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault();
-  }
-
-  public getNameInterlocutor(users) {
-    return _.find(users, n => n.email !== this.getUser().email);
   }
 
   public getUser() {

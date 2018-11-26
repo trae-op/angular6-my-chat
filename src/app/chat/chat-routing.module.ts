@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ChatComponent} from './chat.component';
 import {ChatGuard} from './chat.guard';
+import {MessagesComponent} from './messages/messages.component';
+import {PrivateMessagesComponent} from './private-messages/private-messages.component';
 
 const routes: Routes = [
   {
     path: 'chat',
-    component: ChatComponent,
+    component: MessagesComponent,
     canActivate: [ChatGuard]
   },
   {
     path: 'chat/private_dialog/:id',
-    component: ChatComponent,
+    component: PrivateMessagesComponent,
     canActivate: [ChatGuard]
   }
 ];

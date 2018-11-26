@@ -4,6 +4,6 @@
      *ngFor="let privateDialog of data.privateDialogs"
      [ngClass]="{'active': data.routeParams.id === privateDialog._id}"
      [routerLink]="'/chat/private_dialog/' + privateDialog._id">
-    <span mat-line>{{getNameInterlocutor(privateDialog.users).name}}</span>
+    <span mat-line>{{privateDialog.interlocutor.email === getUser().email ? privateDialog.sender.name : privateDialog.interlocutor.name}}</span>
   </a>
 </mat-nav-list>

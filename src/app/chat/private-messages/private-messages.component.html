@@ -1,4 +1,5 @@
 
+
 <mat-toolbar class="header-toolbar" color="primary">
   <a class="logo" [routerLink]="'/chat'"><mat-icon>chat</mat-icon></a>
 
@@ -12,7 +13,7 @@
       type="search"
       name="searchQuery"
       [(ngModel)]="searchQuery" />
-    <button mat-icon-button (click)="showSeatchBar()" [disabled]="activeSearchBar">
+    <button mat-icon-button (click)="showSearchBar()" [disabled]="activeSearchBar">
       <mat-icon>search</mat-icon>
     </button>
   </div>
@@ -28,10 +29,10 @@
   <mat-menu #menu="matMenu">
     <span mat-menu-item><mat-icon>person</mat-icon> {{getUser().name}}</span>
     <span mat-menu-item><mat-icon>mail</mat-icon> {{getUser().email}}</span>
-    <button mat-menu-item (click)="openPrivateDialogues()" [disabled]="!privateDialogues.length">
+    <button mat-menu-item (click)="openPrivateDialogues()" [disabled]="!privateDialogues().length">
       <mat-icon>person_add</mat-icon>
-      <span class="number-of-dialogues" *ngIf="privateDialogues.length">
-        {{privateDialogues.length}}
+      <span class="number-of-dialogues" *ngIf="privateDialogues().length">
+        {{privateDialogues().length}}
       </span> Private dialogues
     </button>
     <a *ngIf="getUser().role === 'Admin'" mat-menu-item [routerLink]="'/users'"><mat-icon>people</mat-icon> Users</a>
@@ -40,50 +41,34 @@
 
 </mat-toolbar>
 
-<div class="container-messages" appContainerMessages [data]="messages">
+<div class="container-messages" appContainerMessages>
   <mat-list role="list">
-    <p *ngIf="!messages.length">No comments yet!</p>
+    <p *ngIf="noComments()">No comments yet!</p>
     <mat-list-item
       role="listitem"
-      *ngFor="let message of messages | search: searchQuery; let i = index"
+      *ngFor="let message of messages() | search: searchQuery; let i = index"
       [ngClass]="{'my-message': getUser().email === message.creator_email}">
       <p matLine>
         <strong>{{message.name}}</strong>
         <i>
-          <small>{{message.created_at}}</small>
+          <small>{{message.created_at | date: 'dd.MM.yyyy HH:mm'}}</small>
         </i>
-          <button
-            *ngIf="getUser() && getUser().email === message.creator_email"
-            mat-icon-button
-            matTooltip="edit"
-            [matTooltipPosition]="'above'"
-            (click)="editMessage(message, i)">
-              <mat-icon>edit</mat-icon>
-          </button>
-          <button
-            *ngIf="getUser() && getUser().email === message.creator_email || getUser().role === 'Admin'"
-            mat-icon-button
-            matTooltip="delete"
-            [matTooltipPosition]="'above'"
-            (click)="deleteMessage(message._id, i)">
-              <mat-icon>delete</mat-icon>
-          </button>
-          <button
-            *ngIf="getUser() && getUser().email !== message.creator_email && !idPrivateDialog()"
-            mat-icon-button
-            matTooltip="reply"
-            [matTooltipPosition]="'above'"
-            (click)="reply(message.name)">
-            <mat-icon>reply</mat-icon>
-          </button>
-          <button
-            *ngIf="getUser() && getUser().email !== message.creator_email && !idPrivateDialog() && !existPrivateDialog(message).length"
-            mat-icon-button
-            matTooltip="face to face"
-            [matTooltipPosition]="'above'"
-            (click)="faceToFace(message)">
-            <mat-icon>people</mat-icon>
-          </button>
+        <button
+          *ngIf="getUser() && getUser().email === message.creator_email"
+          mat-icon-button
+          matTooltip="edit"
+          [matTooltipPosition]="'above'"
+          (click)="editMessage(message, i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          *ngIf="getUser() && getUser().email === message.creator_email || getUser().role === 'Admin'"
+          mat-icon-button
+          matTooltip="delete"
+          [matTooltipPosition]="'above'"
+          (click)="deleteMessage(message._id, i)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </p>
       <p matLine>{{message.message}}</p>
     </mat-list-item>
@@ -104,3 +89,4 @@
     </button>
   </form>
 </mat-card>
+

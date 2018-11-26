@@ -6,13 +6,16 @@ import {HttpClientModule} from '@angular/common/http';
 import { ChatRoutingModule } from './chat-routing.module';
 import {SharedModule} from '../shared/shared.module';
 
-import {ChatComponent} from './chat.component';
-
 import {ChatService} from './chat.service';
 import { ChatDirective } from './chat.directive';
 import { ChatPipe } from './chat.pipe';
 import {NotificationPopupComponent} from './notification-popup/notification-popup.component';
 import {PrivateDialoguesBottomSheetComponent} from './private-dialogues-bottom-sheet/private-dialogues-bottom-sheet.component';
+import {MessagesComponent} from './messages/messages.component';
+import {PrivateMessagesComponent} from './private-messages/private-messages.component';
+import {MessagesService} from './messages/messages.service';
+import {PrivateMessagesService} from './private-messages/private-messages.service';
+import { TypeMessagePipe } from './type-message.pipe';
 
 @NgModule({
   imports: [
@@ -24,18 +27,22 @@ import {PrivateDialoguesBottomSheetComponent} from './private-dialogues-bottom-s
     SharedModule
   ],
   providers: [
-    ChatService
+    ChatService,
+    MessagesService,
+    PrivateMessagesService
   ],
   entryComponents: [
     NotificationPopupComponent,
     PrivateDialoguesBottomSheetComponent
   ],
   declarations: [
-    ChatComponent,
+    MessagesComponent,
+    PrivateMessagesComponent,
     ChatDirective,
     ChatPipe,
     NotificationPopupComponent,
-    PrivateDialoguesBottomSheetComponent
+    PrivateDialoguesBottomSheetComponent,
+    TypeMessagePipe
   ]
 })
 export class ChatModule { }

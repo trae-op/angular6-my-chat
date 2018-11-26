@@ -18,16 +18,15 @@ export class NotificationPopupComponent {
 
   private addPrivateDialog(notification: NotificationsModel): Promise<any> {
     const dataFilled = {
-      users: [
-        {
-          name: notification.user.name,
-          email: notification.user.email
-        },
-        {
-          name: this.getUser().name,
-          email: this.getUser().email
-        }
-      ]
+      interlocutor: {
+        name: notification.user.name,
+        email: notification.user.email
+      },
+      sender: {
+        name: this.getUser().name,
+        email: this.getUser().email
+      },
+      created_at: new Date()
     };
     return new Promise(resolve => {
       this.chatService.addPrivateDialog(dataFilled)
@@ -36,10 +35,12 @@ export class NotificationPopupComponent {
   }
 
   public async giveConsent(notification: NotificationsModel, index: number) {
+    let next = false;
     await this.addPrivateDialog(notification)
-      .then(() => {
-
-      });
+      .then(() => next = true);
+    if (!next) {
+      return;
+    }
     await this.deleteNotificationById(notification._id)
       .then(() => {
         this.data.splice(index, 1);
@@ -47,21 +48,17 @@ export class NotificationPopupComponent {
           this.dialogRef.close();
         }
       });
-
     const dataFilled = {
       type: 'face-to-face-approved',
       user: {
         name: this.getUser().name,
         email: this.getUser().email
       },
-      interlocutor_email: notification.user.email
+      interlocutor_email: notification.user.email,
+      created_at: new Date()
     };
-    this.chatService.addNotification(dataFilled)
-      .subscribe(response => {
-        if (this.getUser().name === notification.user.name) {
-          this.data.push(response);
-        }
-      });
+    this.chatService.addNotification(dataFilled, notification.user)
+      .subscribe(() => console.log('face-to-face-approved'));
   }
 
   private deleteNotificationById(id: string): Promise<any> {
@@ -86,14 +83,11 @@ export class NotificationPopupComponent {
           name: this.getUser().name,
           email: this.getUser().email
         },
-        interlocutor_email: notification.user.email
+        interlocutor_email: notification.user.email,
+        created_at: new Date()
       };
-      this.chatService.addNotification(dataFilled)
-        .subscribe(response => {
-          if (this.getUser().name === notification.user.name) {
-            this.data.push(response);
-          }
-        });
+      this.chatService.addNotification(dataFilled, notification.user)
+        .subscribe(() => console.log('face-to-face-removed'));
     }
   }
 
